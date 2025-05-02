@@ -1,3 +1,5 @@
 mcp[cli]
 openai
 requests
+fastmcp
+python-dotenv
