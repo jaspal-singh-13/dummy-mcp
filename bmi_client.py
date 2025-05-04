@@ -1,3 +1,9 @@
+"""
+BMI Calculator Client
+This script implements a client that connects to a BMI calculation service using MCP protocol.
+It uses OpenAI's GPT model to process natural language queries and convert them to tool calls.
+"""
+
 import asyncio
 from openai import OpenAI
 from mcp import ClientSession, StdioServerParameters
@@ -7,12 +13,18 @@ import json
 from dotenv import load_dotenv
 load_dotenv()
 
-
+# Configure server connection parameters
 server_params = StdioServerParameters(command="python", args=["bmi_server.py"])
 
-def llm_client(message:str):
+def llm_client(message: str):
     """
-    Send a message to the LLM and return the response.
+    Communicates with OpenAI's LLM to process user queries.
+    
+    Args:
+        message (str): The prompt/query to send to the LLM
+        
+    Returns:
+        str: The LLM's response stripped of whitespace
     """
     # Initialize the OpenAI client
     print("Initializing OpenAI client...")
@@ -32,7 +44,17 @@ def llm_client(message:str):
     return response.choices[0].message.content.strip()
 
 
-def get_prompt_to_identify_tool_and_arguments(query,tools):
+def get_prompt_to_identify_tool_and_arguments(query, tools):
+    """
+    Generates a prompt for the LLM to identify which tool to use and its arguments.
+    
+    Args:
+        query (str): User's natural language query
+        tools (list): Available tools and their descriptions
+        
+    Returns:
+        str: Formatted prompt for the LLM
+    """
     tools_description = "\n".join([f"- {tool.name}, {tool.description}, {tool.inputSchema} " for tool in tools])
     return  ("You are a helpful assistant with access to these tools:\n\n"
                 f"{tools_description}\n"
@@ -50,6 +72,20 @@ def get_prompt_to_identify_tool_and_arguments(query,tools):
                 "}\n\n")
 
 async def run(query: str):
+    """
+    Main execution function that:
+    1. Connects to the BMI server
+    2. Initializes a client session
+    3. Gets available tools
+    4. Processes the query through LLM
+    5. Executes the tool call
+    
+    Args:
+        query (str): Natural language query from user
+        
+    Returns:
+        str: Result of the BMI calculation
+    """
     try:
         print("Connecting to BMI server...")
         async with stdio_client(server_params) as (read, write):
@@ -86,8 +122,7 @@ async def run(query: str):
 
 
 if __name__ == "__main__":
-    import asyncio
+    # Example query demonstrating height and weight input
     query = "Calculate BMI for height 5ft 10inches and weight 80kg"
     print(f"Sending query: {query}")
     asyncio.run(run(query))
-    # print(f"Result: {result}")
