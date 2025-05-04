@@ -30,6 +30,27 @@ def calculate_bmi(weight: float, height: float) -> float:
         raise ValueError("Height must be greater than 0")
     return weight / (height ** 2)
 
+@mcp.tool()
+def get_bmi_category(bmi: float) -> str:
+    """
+    Determine the BMI category based on the calculated BMI value.
+    
+    Args:
+        bmi (float): Calculated BMI value
+        
+    Returns:
+        str: Corresponding BMI category
+    """
+    if bmi < 18.5:
+        return "Underweight"
+    elif 18.5 <= bmi < 24.9:
+        return "Normal weight"
+    elif 25 <= bmi < 29.9:
+        return "Overweight"
+    else:
+        return "Obesity"
+
+
 if __name__ == "__main__":
     # Start the server using stdio transport
     mcp.run(transport="stdio")

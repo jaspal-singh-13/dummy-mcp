@@ -124,5 +124,6 @@ async def run(query: str):
 if __name__ == "__main__":
     # Example query demonstrating height and weight input
     query = "Calculate BMI for height 5ft 10inches and weight 80kg"
+    # query = "Calculate BMI category 25.1 bmi"
     print(f"Sending query: {query}")
     asyncio.run(run(query))
