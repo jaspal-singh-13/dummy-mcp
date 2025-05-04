@@ -7,7 +7,7 @@ It exposes a tool that accepts weight and height parameters and returns the BMI 
 from mcp.server.fastmcp import FastMCP
 
 # Initialize the MCP server with name and version
-mcp = FastMCP("calculator", "0.1.0", "BMI Calculator")
+mcp = FastMCP("BMI Calculator")
 
 print("Starting server...", mcp.name)
 
