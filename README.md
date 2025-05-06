@@ -1,77 +1,68 @@
-# BMI Calculator MCP Service
+# BMI Calculator Service
 
-A simple Body Mass Index (BMI) calculator service using Message Communication Protocol (MCP) with OpenAI integration for natural language processing.
+A natural language BMI calculator service using MCP (Message Communication Protocol) and OpenAI integration.
 
-## Overview
-This service allows users to calculate BMI using natural language queries. It leverages OpenAI's API to interpret user input and communicate with a BMI calculation service.
+## Features
 
-## Prerequisites
-- Python 3.8+
-- OpenAI API key
-- MCP Core library
-- Python dotenv
+- Natural language query processing
+- BMI calculation from height and weight
+- BMI category determination
+- Async server-client communication
+- Error handling and retry logic
 
-## Installation
+## Setup
 
-1. Clone the repository:
-```bash
-git clone https://github.com/jaspal-singh-13/dummy-mcp.git
-cd dummy-mcp
-```
+1. **Environment Setup**
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # Windows: .venv\Scripts\activate
+   pip install mcp-core openai python-dotenv
+   ```
 
-2. Create virtual environment:
-```bash
-python -m venv .venv
-source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
-```
-
-3. Install dependencies:
-```bash
-pip install mcp-core openai python-dotenv
-```
-
-4. Configure environment:
+2. **Configuration**
    - Copy `.env.example` to `.env`
-   - Add your OpenAI API key to `.env`
+   - Add your OpenAI API key to `.env`:
+     ```
+     OPENAI_API_KEY=your-api-key-here
+     ```
 
-## Running the Service
+## Usage
 
-1. Start the BMI server:
-```bash
-python bmi_server.py
-```
+1. **Start Server**
+   ```bash
+   python bmi_server.py
+   ```
 
-2. In a new terminal, run the client(NOTE: Kill the BMI Server script first.):
-```bash
-python bmi_client.py
-```
+2. **Run Client**
+   ```bash
+   python bmi_client.py
+   ```
 
-## Project Components
+3. **Example Queries**
+   - "Calculate BMI for height 5ft 10inches and weight 80kg"
+   - "What's the BMI category for BMI value 25.1"
 
-### BMI Server (`bmi_server.py`)
-- MCP server implementation
-- Provides BMI calculation functionality
-- Accepts weight (kg) and height (m) parameters
+## Project Structure
 
-### BMI Client (`bmi_client.py`)
-- Handles natural language processing via OpenAI
-- Connects to BMI server using stdio transport
-- Translates user queries into tool calls
-
-## Example Usage
-
-```bash
-# The client accepts natural language queries like:
-"Calculate BMI for height 5ft 10inches and weight 80kg"
-```
-
-## Security Notes
-- Never commit `.env` file containing API keys
-- Use `.env.example` for configuration templates
-- Keep your OpenAI API key secure and rotate regularly
+- `bmi_server.py`: MCP server implementing BMI calculations
+- `bmi_client.py`: Client with OpenAI integration for natural language processing
+- `.env`: Configuration file for API keys
+- `.env.example`: Template for environment variables
 
 ## Error Handling
-The service includes error handling for:
-- Invalid input values
-- Server connection issues
-- OpenAI API failures
+
+- Server connection retries
+- Invalid input validation
+- Process cleanup on exit
+- Comprehensive error logging
+
+## Development
+
+- Uses async/await for efficient I/O
+- Implements retry logic for reliability
+- Includes detailed logging for debugging
+- Follows PEP 8 style guidelines
+
+## License
+
+MIT License
